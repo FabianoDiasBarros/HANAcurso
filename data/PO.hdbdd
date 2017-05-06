@@ -26,7 +26,7 @@ context PO {
     	key PURCHASEORDERID	: Businesskey		;
     	HISTORY				: HistoryT			;
     	NOTEID				: Businesskey null	;
-    	PARTNER				: Businesskey		;
+    	PARTNER				: association to Partner ;
     	CURRENCY			: CurrencyT			;
     	GROSSAMOUNT  		: AmountT			;
     	NETAMOUNT			: AmountT			;
@@ -67,7 +67,6 @@ context PO {
     	DELIVERYDATE			: SDate				;
     }     
 
-
      /**
      *   Product entity
      */
@@ -79,19 +78,37 @@ context PO {
 			REALEASEDATE : SDate	   ;
 		}
 
+     /**
+     *   User entity
+     */
+    @Catalog.tableType: #COLUMN 
+    entity User {
+     	Key USERID		 : Businesskey ;
+     	    NAME		 : MediumText  ;
+		}
+
+     /**
+     *   Partner entity
+     */
+    @Catalog.tableType: #COLUMN 
+    entity Partner {
+     	Key PARTNERID	 : Businesskey ;
+     	    NAME		 : MediumText  ;
+		}
+
 	define view ItemView as 
 		select from Item
 			{
-				PURCHASEORDERID   as "PurchaseOrderItemId",
-				PURCHASEORDERITEM as "ItemPos",
-				HEADER.PARTNER    as "PartnerId",
-				CURRENCY		  as "CurrencyCode",
-				GROSSAMOUNT		  as "GrossAmount",
-				NETAMOUNT         as "NetAmount",
-				TAXAMOUNT         as "TaxAmount",
-				QUANTITY		  as "Quantity",
-				QUANTITYUNIT      as "QuantityUnit",
-				DELIVERYDATE	  as "DelivaryDate"
+			PURCHASEORDERID   				as "PurchaseOrderItemId",
+				PURCHASEORDERITEM 			as "ItemPos",
+				HEADER.PARTNER.PARTNERID    as "PartnerId",
+				CURRENCY		  			as "CurrencyCode",
+				GROSSAMOUNT		  			as "GrossAmount",
+				NETAMOUNT         			as "NetAmount",
+				TAXAMOUNT         			as "TaxAmount",
+				QUANTITY		  			as "Quantity",
+				QUANTITYUNIT      			as "QuantityUnit",
+				DELIVERYDATE	  			as "DelivaryDate"
 			};
 
 };
